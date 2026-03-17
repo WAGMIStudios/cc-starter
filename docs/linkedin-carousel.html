@@ -18,21 +18,21 @@
       --cyan-dim: rgba(0,212,255,0.15);
       --purple: #a855f7;
       --purple-dim: rgba(168,85,247,0.15);
-      --text: #e4e4e7;
-      --text-dim: #71717a;
-      --text-bright: #fafafa;
-      --red: #ef4444;
-      --red-dim: rgba(239,68,68,0.12);
+      --text: #e0e0e8;
+      --text-dim: #8b8b9e;
+      --text-bright: #ffffff;
+      --red: #ff4444;
+      --red-dim: rgba(255,68,68,0.12);
       --green: #22c55e;
       --border: rgba(255,255,255,0.08);
-      --font-heading: 'Outfit', system-ui, sans-serif;
-      --font-mono: 'IBM Plex Mono', 'Fira Code', monospace;
+      --font-display: 'Outfit', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: var(--font-heading);
+      font-family: var(--font-display);
       background: #000;
       color: var(--text);
       line-height: 1.6;
@@ -41,7 +41,7 @@
     }
 
     /* ═══════════════════════════════════════════════════════════
-       PAGE LAYOUT
+       PAGE HEADER (hidden in print)
        ═══════════════════════════════════════════════════════════ */
     .page-header {
       max-width: 1080px;
@@ -86,6 +86,8 @@
       overflow: hidden;
       border-radius: 4px;
       flex-shrink: 0;
+      page-break-after: always;
+      break-after: page;
     }
 
     /* ═══════════════════════════════════════════════════════════
@@ -95,8 +97,8 @@
       position: absolute;
       border-radius: 50%;
       pointer-events: none;
-      filter: blur(120px);
-      opacity: 0.12;
+      filter: blur(80px);
+      opacity: 0.15;
       z-index: 0;
     }
     .orb-cyan { background: var(--cyan); }
@@ -164,22 +166,91 @@
     }
 
     /* ═══════════════════════════════════════════════════════════
-       CARDS
+       STATEMENT SLIDES
        ═══════════════════════════════════════════════════════════ */
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 36px;
+    .slide.statement {
+      text-align: center;
+      align-items: center;
+    }
+    .slide.statement .slide-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .big-text {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 72px;
+      line-height: 1.2;
+      color: var(--text-bright);
+      letter-spacing: -0.02em;
+    }
+    .sub-text {
+      font-size: 36px;
+      color: var(--text-dim);
+      margin-top: 20px;
+      line-height: 1.4;
+    }
+    .accent-text {
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .small-text {
+      font-size: 28px;
+      color: var(--text-dim);
+      margin-top: 12px;
+      line-height: 1.4;
+    }
+    .bottom-text {
+      font-size: 22px;
+      color: var(--cyan);
+      margin-top: 48px;
+      line-height: 1.5;
+      max-width: 800px;
     }
 
+    /* ═══════════════════════════════════════════════════════════
+       GLOW BOXES — ALWAYS GLOWING (static, visible in screenshots)
+       ═══════════════════════════════════════════════════════════ */
+    .glow-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(0,212,255,0.25);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow:
+        0 0 20px rgba(0,212,255,0.12),
+        0 0 40px rgba(168,85,247,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .glow-box.glow-strong {
+      border-color: rgba(0,212,255,0.4);
+      box-shadow:
+        0 0 30px rgba(0,212,255,0.2),
+        0 0 60px rgba(168,85,247,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .glow-box.glow-purple {
+      border-color: rgba(168,85,247,0.35);
+      box-shadow:
+        0 0 30px rgba(168,85,247,0.15),
+        0 0 60px rgba(0,212,255,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CARDS (non-glow fallback)
+       ═══════════════════════════════════════════════════════════ */
     .card-title {
       font-size: 28px;
       font-weight: 700;
       color: var(--text-bright);
       margin-bottom: 16px;
     }
-
     .card-desc {
       font-size: 18px;
       color: var(--text-dim);
@@ -203,6 +274,19 @@
       color: var(--cyan);
     }
     .cmd-box .prompt { color: var(--purple); }
+
+    .mini-term {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      padding: 20px 24px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      color: var(--cyan);
+      white-space: pre-wrap;
+      line-height: 1.7;
+      margin-top: 16px;
+    }
 
     .terminal {
       background: rgba(0,0,0,0.5);
@@ -250,7 +334,7 @@
     }
     .point-icon.red {
       background: var(--red-dim);
-      color: var(--red);
+      color: rgba(255,68,68,0.6);
     }
     .point-icon.cyan {
       background: var(--cyan-dim);
@@ -284,13 +368,11 @@
     }
 
     /* ═══════════════════════════════════════════════════════════
-       TIER BOXES (Slide 6)
+       TIER BOXES
        ═══════════════════════════════════════════════════════════ */
     .tier {
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 28px 32px;
-      border: 1px solid var(--border);
-      background: var(--bg-card);
     }
     .tier-name {
       font-size: 22px;
@@ -308,38 +390,43 @@
       font-size: 16px;
       color: var(--text-dim);
     }
+
+    /* Tier glow levels */
     .tier.glow-1 {
-      border-color: rgba(0,212,255,0.12);
-      box-shadow: 0 0 30px rgba(0,212,255,0.04);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(0,212,255,0.15);
+      box-shadow: 0 0 20px rgba(0,212,255,0.06);
     }
     .tier.glow-2 {
-      border-color: rgba(0,212,255,0.2);
-      box-shadow: 0 0 40px rgba(0,212,255,0.06);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(0,212,255,0.25);
+      box-shadow: 0 0 30px rgba(0,212,255,0.1), 0 0 15px rgba(168,85,247,0.05);
     }
     .tier.glow-3 {
-      border-color: rgba(168,85,247,0.25);
-      box-shadow: 0 0 50px rgba(168,85,247,0.08), 0 0 30px rgba(0,212,255,0.06);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(168,85,247,0.35);
+      box-shadow: 0 0 40px rgba(168,85,247,0.12), 0 0 25px rgba(0,212,255,0.08);
     }
 
     /* ═══════════════════════════════════════════════════════════
-       PLUGIN ROWS (Slide 7)
+       PLUGIN MINI GLOW BOXES
        ═══════════════════════════════════════════════════════════ */
-    .plugin-row {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      padding: 18px 0;
-      border-bottom: 1px solid var(--border);
+    .plugin-mini {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(0,212,255,0.15);
+      border-radius: 14px;
+      padding: 18px 24px;
+      box-shadow: 0 0 15px rgba(0,212,255,0.06), 0 0 30px rgba(168,85,247,0.04);
     }
-    .plugin-row:last-child { border-bottom: none; }
     .plugin-name {
       font-family: var(--font-mono);
       font-size: 18px;
       font-weight: 600;
       color: var(--cyan);
+      margin-bottom: 4px;
     }
     .plugin-desc {
-      font-size: 17px;
+      font-size: 16px;
       color: var(--text-dim);
       line-height: 1.5;
     }
@@ -357,7 +444,6 @@
       font-weight: 700;
       color: var(--text-bright);
     }
-    .highlight-box .gradient-text { font-size: inherit; }
 
     /* ═══════════════════════════════════════════════════════════
        CTA LINKS
@@ -384,15 +470,43 @@
       font-size: 17px;
       color: var(--cyan);
     }
+
+    /* ═══════════════════════════════════════════════════════════
+       PRINT STYLES
+       ═══════════════════════════════════════════════════════════ */
+    @media print {
+      body {
+        margin: 0;
+        padding: 0;
+        background: #000;
+      }
+      .page-header { display: none; }
+      .slides-container { gap: 0; }
+      .slide {
+        page-break-after: always;
+        break-after: page;
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      .slide:last-child {
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+    }
+
+    @page {
+      size: 1080px 1080px;
+      margin: 0;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Page Header -->
+  <!-- Page Header (hidden in print) -->
   <div class="page-header">
-    <strong>LinkedIn Carousel Slides</strong> — 10 Slides, je 1080x1080px.<br>
-    Jeden Slide einzeln screenshotten (z.B. mit Browser DevTools Device Mode auf 1080x1080) oder als PDF drucken und die Seiten in LinkedIn hochladen.<br>
-    Tipp: <code>Cmd/Ctrl+P</code> zum Drucken, dann "Als PDF speichern" auswaehlen.
+    <strong>LinkedIn Carousel Slides</strong> — 15 Slides, je 1080x1080px.<br>
+    <code>Ctrl+P</code> &rarr; Als PDF speichern (Papierformat auf 1080x1080px setzen) oder jeden Slide einzeln screenshotten.
   </div>
 
   <div class="slides-container">
@@ -401,37 +515,54 @@
          SLIDE 1: COVER
          ══════════════════════════════════════════════════════════ -->
     <div class="slide" data-slide-number="1">
-      <!-- Orbs -->
       <div class="orb orb-cyan" style="width:500px;height:500px;top:-180px;left:-180px;"></div>
       <div class="orb orb-purple" style="width:450px;height:450px;bottom:-150px;right:-150px;"></div>
       <div class="orb orb-cyan" style="width:300px;height:300px;top:55%;left:65%;opacity:0.07;"></div>
 
-      <div class="slide-content" style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:0;">
-        <div style="font-size:80px;font-weight:900;line-height:1.05;letter-spacing:-0.03em;margin-bottom:8px;">
-          <span style="color:var(--text-bright);">Claude Code.</span><br>
-          <span class="gradient-text">Aufgeladen.</span>
+      <div class="slide-content" style="text-align:center;display:flex;flex-direction:column;align-items:center;">
+        <div style="font-size:88px;font-weight:900;line-height:1.05;letter-spacing:-0.03em;margin-bottom:8px;">
+          <span class="gradient-text">Claude Code.</span>
         </div>
-        <p style="font-size:26px;color:var(--text-dim);margin-bottom:48px;line-height:1.6;">
-          Ein Befehl. Fertig eingerichtet.
-        </p>
-        <div class="cmd-box" style="margin-bottom:48px;">
+        <div style="font-size:72px;font-weight:800;color:var(--text-bright);margin-bottom:48px;letter-spacing:-0.02em;">
+          Aufgeladen.
+        </div>
+        <div class="cmd-box" style="margin-bottom:48px;font-size:30px;">
           <span class="prompt">$</span> npx cc-starter
         </div>
         <p style="font-size:16px;color:var(--text-dim);font-family:var(--font-mono);letter-spacing:0.05em;">
-          Open Source &middot; MIT &middot; kostenlos
+          Open Source &middot; MIT &middot; Kostenlos
         </p>
       </div>
 
       <div class="slide-brand">
         <div class="brand-name">cc<span>-starter</span></div>
-        <div class="slide-num">1 / 10</div>
+        <div class="slide-num">01/15</div>
       </div>
     </div>
 
     <!-- ══════════════════════════════════════════════════════════
-         SLIDE 2: THE PROBLEM
+         SLIDE 2: STATEMENT — The Problem
          ══════════════════════════════════════════════════════════ -->
-    <div class="slide" data-slide-number="2">
+    <div class="slide statement" data-slide-number="2">
+      <div class="orb orb-purple" style="width:400px;height:400px;top:-120px;right:-100px;"></div>
+      <div class="orb orb-cyan" style="width:300px;height:300px;bottom:-100px;left:-80px;opacity:0.08;"></div>
+
+      <div class="slide-content">
+        <div class="big-text" style="margin-bottom:16px;">Jede neue Session.</div>
+        <div class="big-text" style="margin-bottom:16px;">Dasselbe Setup.</div>
+        <div class="big-text accent-text">Immer wieder.</div>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">02/15</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 3: PROBLEM DETAILS
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="3">
       <div class="orb orb-purple" style="width:400px;height:400px;top:-120px;right:-100px;"></div>
       <div class="orb orb-cyan" style="width:350px;height:350px;bottom:-100px;left:-80px;opacity:0.08;"></div>
 
@@ -464,14 +595,33 @@
 
       <div class="slide-brand">
         <div class="brand-name">cc<span>-starter</span></div>
-        <div class="slide-num">2 / 10</div>
+        <div class="slide-num">03/15</div>
       </div>
     </div>
 
     <!-- ══════════════════════════════════════════════════════════
-         SLIDE 3: THE SOLUTION
+         SLIDE 4: STATEMENT — The Solution
          ══════════════════════════════════════════════════════════ -->
-    <div class="slide" data-slide-number="3">
+    <div class="slide statement" data-slide-number="4">
+      <div class="orb orb-cyan" style="width:450px;height:450px;top:-150px;left:-120px;"></div>
+      <div class="orb orb-purple" style="width:350px;height:350px;bottom:-120px;right:-80px;opacity:0.09;"></div>
+
+      <div class="slide-content">
+        <div class="big-text accent-text" style="margin-bottom:16px;">Ein Befehl.</div>
+        <div class="big-text" style="margin-bottom:16px;">Alles eingerichtet.</div>
+        <div class="big-text">In 30 Sekunden.</div>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">04/15</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 5: SOLUTION DETAILS
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="5">
       <div class="orb orb-cyan" style="width:450px;height:450px;top:-150px;left:-120px;"></div>
       <div class="orb orb-purple" style="width:350px;height:350px;bottom:-120px;right:-80px;opacity:0.09;"></div>
 
@@ -504,31 +654,51 @@
 
       <div class="slide-brand">
         <div class="brand-name">cc<span>-starter</span></div>
-        <div class="slide-num">3 / 10</div>
+        <div class="slide-num">05/15</div>
       </div>
     </div>
 
     <!-- ══════════════════════════════════════════════════════════
-         SLIDE 4: TOKEN-SAVING SCRIPTS
+         SLIDE 6: STATEMENT — Features Intro
          ══════════════════════════════════════════════════════════ -->
-    <div class="slide" data-slide-number="4">
+    <div class="slide statement" data-slide-number="6">
+      <div class="orb orb-cyan" style="width:400px;height:400px;top:-130px;left:-100px;"></div>
+      <div class="orb orb-purple" style="width:380px;height:380px;bottom:-130px;right:-100px;"></div>
+
+      <div class="slide-content">
+        <div class="big-text" style="margin-bottom:16px;">Was du bekommst.</div>
+        <div class="small-text">Alles was du brauchst.</div>
+        <div class="small-text">Nichts, was du nicht brauchst.</div>
+        <div class="bottom-text">Sechs Tools, die jede Claude Code Session schneller, g&uuml;nstiger und smarter machen.</div>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">06/15</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 7: TOKEN-SAVING SCRIPTS
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="7">
       <div class="orb orb-cyan" style="width:400px;height:400px;top:-100px;right:-100px;opacity:0.1;"></div>
       <div class="orb orb-purple" style="width:300px;height:300px;bottom:-80px;left:-60px;opacity:0.08;"></div>
 
-      <div class="slide-content" style="gap:32px;display:flex;flex-direction:column;">
-        <div class="card" style="flex:1;">
-          <div style="font-size:48px;margin-bottom:16px;">&#9889;</div>
-          <div class="card-title" style="font-size:36px;">Token-sparende Scripts</div>
-          <p class="card-desc" style="margin-bottom:28px;">
+      <div class="slide-content" style="display:flex;flex-direction:column;gap:28px;">
+        <div class="glow-box">
+          <div style="font-size:44px;margin-bottom:12px;">&#9889;</div>
+          <div class="card-title" style="font-size:34px;">Token-sparende Scripts</div>
+          <p class="card-desc" style="margin-bottom:24px;">
             <code style="font-family:var(--font-mono);color:var(--cyan);background:rgba(0,212,255,0.08);padding:2px 8px;border-radius:4px;">vibe-code.js</code>
-            extrahiert nur was Claude braucht: Types, Funktions-Signaturen, Imports, Verzeichnisb&auml;ume.
+            extrahiert nur was Claude braucht
           </p>
-          <div class="terminal" style="margin-bottom:28px;">
-            <span class="line-dim">$</span> <span class="line-cyan">vibe-code.js types api.ts</span><br>
-            <span class="line-green">&#10003; 200 tokens</span> <span class="line-dim">(saved 1,800)</span><br><br>
-            <span class="line-dim">$</span> <span class="line-cyan">vibe-code.js functions lib/utils.ts</span><br>
-            <span class="line-green">&#10003; 55 tokens</span> <span class="line-dim">(saved 930)</span>
-          </div>
+          <div class="mini-term" style="margin-bottom:24px;font-size:17px;">
+<span style="color:var(--text-dim);">$</span> <span style="color:var(--cyan);">vibe-code.js types api.ts</span>
+<span style="color:var(--green);">&#10003; 200 tokens</span> <span style="color:var(--text-dim);">(saved 1,800)</span>
+
+<span style="color:var(--text-dim);">$</span> <span style="color:var(--cyan);">vibe-code.js functions utils.ts</span>
+<span style="color:var(--green);">&#10003; 55 tokens</span> <span style="color:var(--text-dim);">(saved 930)</span></div>
           <div class="highlight-box">
             <span class="gradient-text">~90% weniger Token-Verbrauch</span>
           </div>
@@ -537,59 +707,74 @@
 
       <div class="slide-brand">
         <div class="brand-name">cc<span>-starter</span></div>
-        <div class="slide-num">4 / 10</div>
+        <div class="slide-num">07/15</div>
       </div>
     </div>
 
     <!-- ══════════════════════════════════════════════════════════
-         SLIDE 5: COCOMO + STATS
+         SLIDE 8: COCOMO + REPORT
          ══════════════════════════════════════════════════════════ -->
-    <div class="slide" data-slide-number="5">
+    <div class="slide" data-slide-number="8">
       <div class="orb orb-purple" style="width:420px;height:420px;top:-140px;left:-100px;"></div>
       <div class="orb orb-cyan" style="width:300px;height:300px;bottom:-80px;right:-60px;opacity:0.08;"></div>
 
-      <div class="slide-content" style="display:flex;flex-direction:column;gap:32px;">
-        <div class="section-label">Projekt-Analyse</div>
-
+      <div class="slide-content" style="display:flex;flex-direction:column;gap:28px;">
         <!-- COCOMO Card -->
-        <div class="card">
-          <div class="card-title" style="font-size:28px;">&#128176; Projekt-Kostensch&auml;tzung</div>
-          <p class="card-desc" style="margin-bottom:20px;">COCOMO-II Modell, direkt im Terminal</p>
-          <div class="terminal">
-            <span class="line-dim">Lines of Code:</span>  <span style="color:var(--text-bright);font-weight:600;">36,660</span><br>
-            <span class="line-dim">Effort:</span>          <span style="color:var(--text-bright);font-weight:600;">9.8 Person-Months</span><br>
-            <span class="line-dim">Cost:</span>            <span class="line-cyan" style="font-weight:600;">&euro;47,040</span> <span class="line-dim">(at &euro;80/h)</span>
-          </div>
+        <div class="glow-box">
+          <div class="card-title">&#128176; COCOMO-Sch&auml;tzung</div>
+          <div class="mini-term" style="font-size:18px;">
+<span style="color:var(--text-dim);">Lines of Code:</span>  <span style="color:var(--text-bright);font-weight:600;">36,660</span>
+<span style="color:var(--text-dim);">Aufwand:</span>         <span style="color:var(--text-bright);font-weight:600;">9.8 Personenmonate</span>
+<span style="color:var(--text-dim);">Kosten:</span>          <span style="color:var(--cyan);font-weight:600;">&euro;47,040</span> <span style="color:var(--text-dim);">(bei &euro;80/h)</span></div>
         </div>
 
         <!-- HTML Report Card -->
-        <div class="card">
-          <div class="card-title" style="font-size:28px;">&#128202; HTML Projekt-Report</div>
-          <p class="card-desc" style="margin-bottom:12px;">
+        <div class="glow-box">
+          <div class="card-title">&#128202; HTML Projekt-Report</div>
+          <p class="card-desc" style="margin-bottom:8px;">
             LOC nach Sprache, Ordnergr&ouml;&szlig;en, Git-Stats
           </p>
           <p class="card-desc">
-            Minimal <span style="color:var(--text);font-weight:500;">(zero deps)</span> oder Fancy <span style="color:var(--text);font-weight:500;">(Chart.js)</span>
+            Minimal <span style="color:var(--text);font-weight:500;">(zero deps)</span> oder Fancy <span style="color:var(--text);font-weight:500;">(mit Chart.js)</span>
           </p>
         </div>
       </div>
 
       <div class="slide-brand">
         <div class="brand-name">cc<span>-starter</span></div>
-        <div class="slide-num">5 / 10</div>
+        <div class="slide-num">08/15</div>
       </div>
     </div>
 
     <!-- ══════════════════════════════════════════════════════════
-         SLIDE 6: PLUGIN PRESETS
+         SLIDE 9: STATEMENT — Plugins Intro
          ══════════════════════════════════════════════════════════ -->
-    <div class="slide" data-slide-number="6">
+    <div class="slide statement" data-slide-number="9">
+      <div class="orb orb-purple" style="width:400px;height:400px;top:-100px;right:-80px;"></div>
+      <div class="orb orb-cyan" style="width:350px;height:350px;bottom:-100px;left:-80px;opacity:0.1;"></div>
+
+      <div class="slide-content">
+        <div class="big-text" style="margin-bottom:16px;">Die besten Plugins.</div>
+        <div class="big-text" style="margin-bottom:32px;">Ein Klick.</div>
+        <div class="small-text">Kuratierte Presets f&uuml;r jedes Projekt.</div>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">09/15</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 10: PLUGIN PRESETS
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="10">
       <div class="orb orb-cyan" style="width:380px;height:380px;top:-100px;right:-80px;opacity:0.09;"></div>
       <div class="orb orb-purple" style="width:350px;height:350px;bottom:-100px;left:-80px;"></div>
 
-      <div class="slide-content" style="display:flex;flex-direction:column;gap:28px;">
+      <div class="slide-content" style="display:flex;flex-direction:column;gap:24px;">
         <div class="section-label">Plugins</div>
-        <div class="slide-title" style="margin-bottom:12px;">&#128268; Die besten Plugins, ein Klick</div>
+        <div class="slide-title" style="margin-bottom:16px;">Plugin-Auswahl</div>
 
         <div class="tier glow-1">
           <div class="tier-name">Minimal</div>
@@ -612,104 +797,123 @@
 
       <div class="slide-brand">
         <div class="brand-name">cc<span>-starter</span></div>
-        <div class="slide-num">6 / 10</div>
+        <div class="slide-num">10/15</div>
       </div>
     </div>
 
     <!-- ══════════════════════════════════════════════════════════
-         SLIDE 7: PLUGIN DETAILS
+         SLIDE 11: PLUGIN DETAILS
          ══════════════════════════════════════════════════════════ -->
-    <div class="slide" data-slide-number="7">
+    <div class="slide" data-slide-number="11">
       <div class="orb orb-purple" style="width:400px;height:400px;top:-120px;left:-100px;opacity:0.08;"></div>
       <div class="orb orb-cyan" style="width:300px;height:300px;bottom:-80px;right:-60px;opacity:0.07;"></div>
 
-      <div class="slide-content" style="display:flex;flex-direction:column;">
+      <div class="slide-content" style="display:flex;flex-direction:column;gap:16px;">
         <div class="section-label">Plugin-Details</div>
-        <div class="slide-title" style="margin-bottom:24px;font-size:44px;">Was die Plugins k&ouml;nnen</div>
+        <div class="slide-title" style="margin-bottom:12px;font-size:44px;">Was die Plugins k&ouml;nnen</div>
 
-        <div style="display:flex;flex-direction:column;">
-          <div class="plugin-row">
-            <div class="plugin-name">superpowers</div>
-            <div class="plugin-desc">TDD, Debugging, Brainstorming, Plans, Code Review, parallele Agents</div>
-          </div>
-          <div class="plugin-row">
-            <div class="plugin-name">feature-dev</div>
-            <div class="plugin-desc">Code Explorer, Architektur-Designer, Quality Reviewer</div>
-          </div>
-          <div class="plugin-row">
-            <div class="plugin-name">pr-review-toolkit</div>
-            <div class="plugin-desc">Test-Analyzer, Silent-Failure-Hunter, Type-Design-Analyzer</div>
-          </div>
-          <div class="plugin-row">
-            <div class="plugin-name">frontend-design</div>
-            <div class="plugin-desc">Production-grade UI/UX mit distinctivem Design</div>
-          </div>
-          <div class="plugin-row">
-            <div class="plugin-name">ui-ux-pro-max</div>
-            <div class="plugin-desc">67 UI-Styles, 161 Farbpaletten, 57 Font-Pairings</div>
-          </div>
+        <div class="plugin-mini">
+          <div class="plugin-name">superpowers</div>
+          <div class="plugin-desc">TDD, Debugging, Brainstorming, Plans, Code Review</div>
+        </div>
+
+        <div class="plugin-mini">
+          <div class="plugin-name">feature-dev</div>
+          <div class="plugin-desc">Code Explorer, Architektur-Designer, Quality Reviewer</div>
+        </div>
+
+        <div class="plugin-mini">
+          <div class="plugin-name">pr-review-toolkit</div>
+          <div class="plugin-desc">Test-Analyzer, Silent-Failure-Hunter</div>
+        </div>
+
+        <div class="plugin-mini">
+          <div class="plugin-name">frontend-design</div>
+          <div class="plugin-desc">Production-grade UI/UX</div>
+        </div>
+
+        <div class="plugin-mini">
+          <div class="plugin-name">ui-ux-pro-max</div>
+          <div class="plugin-desc">67 UI-Styles, 161 Farbpaletten, 57 Font-Pairings</div>
         </div>
       </div>
 
       <div class="slide-brand">
         <div class="brand-name">cc<span>-starter</span></div>
-        <div class="slide-num">7 / 10</div>
+        <div class="slide-num">11/15</div>
       </div>
     </div>
 
     <!-- ══════════════════════════════════════════════════════════
-         SLIDE 8: MEMORY + RULES
+         SLIDE 12: MEMORY + RULES
          ══════════════════════════════════════════════════════════ -->
-    <div class="slide" data-slide-number="8">
+    <div class="slide" data-slide-number="12">
       <div class="orb orb-cyan" style="width:400px;height:400px;top:-120px;right:-100px;"></div>
       <div class="orb orb-purple" style="width:300px;height:300px;bottom:-80px;left:-60px;opacity:0.08;"></div>
 
-      <div class="slide-content" style="display:flex;flex-direction:column;gap:32px;">
+      <div class="slide-content" style="display:flex;flex-direction:column;gap:28px;">
         <div class="section-label">Kontext &amp; Regeln</div>
 
         <!-- Memory Card -->
-        <div class="card">
-          <div class="card-title">&#129504; Memory System</div>
+        <div class="glow-box">
+          <div class="card-title">&#129504; Ged&auml;chtnis-System</div>
+          <p class="card-desc" style="margin-bottom:12px;">
+            Claude merkt sich alles
+          </p>
           <p class="card-desc" style="margin-bottom:16px;">
-            Claude merkt sich alles: Entscheidungen, Feedback, Projektkontext.
+            Entscheidungen, Feedback, Projektkontext
           </p>
-          <p class="card-desc" style="margin-bottom:20px;">
-            Nie wieder dasselbe zweimal erkl&auml;ren.
-          </p>
-          <div class="terminal" style="font-size:15px;">
-            <span class="line-dim">.claude/memory/</span><span class="line-cyan">MEMORY.md</span>
-          </div>
+          <div class="mini-term" style="font-size:15px;margin-top:12px;">
+<span style="color:var(--text-dim);">.claude/memory/</span><span style="color:var(--cyan);">MEMORY.md</span></div>
         </div>
 
         <!-- Rules Card -->
-        <div class="card">
+        <div class="glow-box">
           <div class="card-title">&#128203; Bew&auml;hrte Regeln</div>
-          <p class="card-desc" style="margin-bottom:12px;">
-            Aus echtem Produktionsprojekt extrahiert.
+          <p class="card-desc" style="margin-bottom:8px;">
+            Task-Tracking, STOPP &amp; Neu planen
           </p>
-          <p class="card-desc">
-            Task-Tracking, STOPP &amp; Neu planen, Verification gegen Main.
+          <p class="card-desc" style="margin-bottom:8px;">
+            Verification gegen Main
           </p>
           <p style="font-size:15px;color:var(--text-dim);margin-top:12px;font-family:var(--font-mono);">
-            Deutsch + Englisch
+            Deutsch und Englisch
           </p>
         </div>
       </div>
 
       <div class="slide-brand">
         <div class="brand-name">cc<span>-starter</span></div>
-        <div class="slide-num">8 / 10</div>
+        <div class="slide-num">12/15</div>
       </div>
     </div>
 
     <!-- ══════════════════════════════════════════════════════════
-         SLIDE 9: HOW IT WORKS
+         SLIDE 13: STATEMENT — CTA Intro
          ══════════════════════════════════════════════════════════ -->
-    <div class="slide" data-slide-number="9">
+    <div class="slide statement" data-slide-number="13">
+      <div class="orb orb-cyan" style="width:450px;height:450px;top:-150px;left:-120px;"></div>
+      <div class="orb orb-purple" style="width:400px;height:400px;bottom:-130px;right:-100px;"></div>
+
+      <div class="slide-content">
+        <div class="big-text" style="margin-bottom:32px;">Bereit?</div>
+        <div class="sub-text">30 Sekunden bis zum perfekten Setup.</div>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">13/15</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 14: HOW IT WORKS
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="14">
       <div class="orb orb-purple" style="width:400px;height:400px;top:-130px;left:-100px;"></div>
       <div class="orb orb-cyan" style="width:350px;height:350px;bottom:-120px;right:-80px;opacity:0.09;"></div>
 
-      <div class="slide-content" style="display:flex;flex-direction:column;align-items:center;gap:0;text-align:center;">
+      <div class="slide-content" style="display:flex;flex-direction:column;align-items:center;text-align:center;">
         <div class="section-label" style="margin-bottom:16px;">Setup</div>
         <div class="slide-title" style="margin-bottom:48px;">So einfach geht's</div>
 
@@ -739,19 +943,19 @@
 
       <div class="slide-brand">
         <div class="brand-name">cc<span>-starter</span></div>
-        <div class="slide-num">9 / 10</div>
+        <div class="slide-num">14/15</div>
       </div>
     </div>
 
     <!-- ══════════════════════════════════════════════════════════
-         SLIDE 10: CTA / CLOSER
+         SLIDE 15: CLOSER / CTA
          ══════════════════════════════════════════════════════════ -->
-    <div class="slide" data-slide-number="10">
+    <div class="slide" data-slide-number="15">
       <div class="orb orb-cyan" style="width:500px;height:500px;top:-180px;left:-160px;"></div>
       <div class="orb orb-purple" style="width:450px;height:450px;bottom:-150px;right:-120px;"></div>
       <div class="orb orb-cyan" style="width:250px;height:250px;top:40%;left:70%;opacity:0.06;"></div>
 
-      <div class="slide-content" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:0;">
+      <div class="slide-content" style="display:flex;flex-direction:column;align-items:center;text-align:center;">
         <div style="font-size:64px;font-weight:900;color:var(--text-bright);margin-bottom:40px;letter-spacing:-0.03em;">
           Probier es aus.
         </div>
@@ -788,7 +992,7 @@
 
       <div class="slide-brand">
         <div class="brand-name">cc<span>-starter</span></div>
-        <div class="slide-num">10 / 10</div>
+        <div class="slide-num">15/15</div>
       </div>
     </div>
 
