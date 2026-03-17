@@ -1,6 +1,6 @@
 {
   "name": "cc-starter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Claude Code Project Kickstart — scaffolds an optimized dev environment with token-saving scripts, COCOMO estimation, and interactive plugin setup",
   "type": "module",
   "bin": {
