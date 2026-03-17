@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -352,6 +352,27 @@
     footer .built-with { margin-top: 12px; font-size: 0.78rem; opacity: 0.5; }
 
     /* ═══════════════════════════════════════════════════════════
+       LANGUAGE TOGGLE
+       ═══════════════════════════════════════════════════════════ */
+    html[data-lang="en"] .lang-de { display: none !important; }
+    html[data-lang="de"] .lang-en { display: none !important; }
+
+    .lang-toggle {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
+      margin-left: 16px;
+    }
+    .lang-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-dim); font-family: var(--font-mono);
+      font-size: 0.8rem; font-weight: 600; padding: 4px 6px;
+      transition: color 0.2s;
+    }
+    .lang-btn:hover { color: var(--text); }
+    .lang-btn.active { color: var(--cyan); }
+    .lang-divider { color: var(--text-dim); opacity: 0.3; user-select: none; }
+
+    /* ═══════════════════════════════════════════════════════════
        DIVIDER
        ═══════════════════════════════════════════════════════════ */
     .section-divider {
@@ -381,6 +402,11 @@
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
           GitHub
         </a>
+        <div class="lang-toggle">
+          <button class="lang-btn" data-lang-switch="de" aria-label="Deutsch">DE</button>
+          <span class="lang-divider">|</span>
+          <button class="lang-btn active" data-lang-switch="en" aria-label="English">EN</button>
+        </div>
       </div>
     </div>
   </nav>
@@ -392,16 +418,17 @@
     <div class="container">
       <h1>
         <span class="hero-stagger" style="animation-delay:0ms">Claude Code.</span>
-        <span class="hero-stagger line2 gradient-text" style="animation-delay:150ms">Supercharged.</span>
+        <span class="hero-stagger line2 gradient-text" style="animation-delay:150ms"><span class="lang-en">Supercharged.</span><span class="lang-de">Aufgeladen.</span></span>
       </h1>
       <p class="sub hero-stagger" style="animation-delay:300ms">
-        One command sets up everything&thinsp;&mdash;&thinsp;token-saving scripts, project cost estimation, plugin presets, and battle-tested rules. Stop configuring, start coding.
+        <span class="lang-en">One command sets up everything&thinsp;&mdash;&thinsp;token-saving scripts, project cost estimation, plugin presets, and battle-tested rules. Stop configuring, start coding.</span>
+        <span class="lang-de">Ein Befehl richtet alles ein&thinsp;&mdash;&thinsp;Token-sparende Scripts, Projekt-Kostenschätzung, Plugin-Presets und bewährte Regeln. Schluss mit Konfigurieren, los geht's.</span>
       </p>
       <div class="hero-stagger" style="animation-delay:450ms">
         <div class="cmd-box" id="hero-copy" role="button" tabindex="0" aria-label="Copy npx cc-starter to clipboard">
           <span>npx cc-starter</span>
           <span class="copy-icon" aria-hidden="true">&#x2398;</span>
-          <span class="copied-toast" id="hero-toast">Copied!</span>
+          <span class="copied-toast" id="hero-toast"><span class="lang-en">Copied!</span><span class="lang-de">Kopiert!</span></span>
         </div>
       </div>
       <div class="badges hero-stagger" style="animation-delay:600ms">
@@ -425,28 +452,28 @@
   <section class="section" id="problem">
     <div class="container">
       <div class="animate-on-scroll" style="text-align:center">
-        <div class="section-label">The Problem</div>
-        <h2 class="section-title">Claude Code is powerful.<br>Setting it up shouldn't be painful.</h2>
+        <div class="section-label"><span class="lang-en">The Problem</span><span class="lang-de">Das Problem</span></div>
+        <h2 class="section-title"><span class="lang-en">Claude Code is powerful.<br>Setting it up shouldn't be painful.</span><span class="lang-de">Claude Code ist mächtig.<br>Das Setup sollte es nicht sein.</span></h2>
       </div>
       <div class="ba-grid">
         <div class="ba-col before animate-on-scroll">
-          <h3>Without cc-starter</h3>
+          <h3><span class="lang-en">Without cc-starter</span><span class="lang-de">Ohne cc-starter</span></h3>
           <ul>
-            <li>Every session starts from scratch</li>
-            <li>Claude reads entire 500-line files</li>
-            <li>No memory between sessions</li>
-            <li>Manual plugin setup, one by one</li>
-            <li>No idea what your project costs</li>
+            <li><span class="lang-en">Every session starts from scratch</span><span class="lang-de">Jede Session startet von Null</span></li>
+            <li><span class="lang-en">Claude reads entire 500-line files</span><span class="lang-de">Claude liest ganze 500-Zeilen-Dateien</span></li>
+            <li><span class="lang-en">No memory between sessions</span><span class="lang-de">Kein Gedächtnis zwischen Sessions</span></li>
+            <li><span class="lang-en">Manual plugin setup, one by one</span><span class="lang-de">Manuelles Plugin-Setup</span></li>
+            <li><span class="lang-en">No idea what your project costs</span><span class="lang-de">Keine Ahnung was dein Projekt kostet</span></li>
           </ul>
         </div>
         <div class="ba-col after animate-on-scroll">
-          <h3>With cc-starter</h3>
+          <h3><span class="lang-en">With cc-starter</span><span class="lang-de">Mit cc-starter</span></h3>
           <ul>
-            <li>Rules, memory, and context &mdash; ready from start</li>
-            <li>Extract only types and signatures &mdash; 90% fewer tokens</li>
-            <li>Persistent memory across every session</li>
-            <li>One-click plugin presets</li>
-            <li>COCOMO estimation tells you instantly</li>
+            <li><span class="lang-en">Rules, memory, and context &mdash; ready from start</span><span class="lang-de">Regeln, Gedächtnis und Kontext &mdash; sofort bereit</span></li>
+            <li><span class="lang-en">Extract only types and signatures &mdash; 90% fewer tokens</span><span class="lang-de">Nur Types und Signaturen extrahieren &mdash; 90% weniger Tokens</span></li>
+            <li><span class="lang-en">Persistent memory across every session</span><span class="lang-de">Persistentes Gedächtnis über alle Sessions</span></li>
+            <li><span class="lang-en">One-click plugin presets</span><span class="lang-de">Plugin-Presets mit einem Klick</span></li>
+            <li><span class="lang-en">COCOMO estimation tells you instantly</span><span class="lang-de">COCOMO-Schätzung sagt es dir sofort</span></li>
           </ul>
         </div>
       </div>
@@ -461,38 +488,38 @@
   <section class="section" id="features">
     <div class="container">
       <div class="animate-on-scroll" style="text-align:center">
-        <div class="section-label">What You Get</div>
-        <h2 class="section-title">Everything you need.<br class="hide-mobile">Nothing you don't.</h2>
-        <p class="section-subtitle" style="margin:0 auto">Six tools that make every Claude Code session faster, cheaper, and smarter.</p>
+        <div class="section-label"><span class="lang-en">What You Get</span><span class="lang-de">Was du bekommst</span></div>
+        <h2 class="section-title"><span class="lang-en">Everything you need.<br class="hide-mobile">Nothing you don't.</span><span class="lang-de">Alles was du brauchst.<br class="hide-mobile">Nichts, was du nicht brauchst.</span></h2>
+        <p class="section-subtitle" style="margin:0 auto"><span class="lang-en">Six tools that make every Claude Code session faster, cheaper, and smarter.</span><span class="lang-de">Sechs Tools, die jede Claude Code Session schneller, günstiger und smarter machen.</span></p>
       </div>
       <div class="card-grid">
         <div class="card animate-on-scroll">
           <span class="icon" aria-hidden="true">&#9889;</span>
-          <h3>Token-Saving Scripts</h3>
-          <p>Stop wasting tokens. <code>vibe-code.js</code> extracts only what Claude needs&thinsp;&mdash;&thinsp;types, function signatures, imports, directory trees. ~90% fewer tokens per file read.</p>
+          <h3><span class="lang-en">Token-Saving Scripts</span><span class="lang-de">Token-sparende Scripts</span></h3>
+          <p><span class="lang-en">Stop wasting tokens. <code>vibe-code.js</code> extracts only what Claude needs&thinsp;&mdash;&thinsp;types, function signatures, imports, directory trees. ~90% fewer tokens per file read.</span><span class="lang-de">Schluss mit Token-Verschwendung. <code>vibe-code.js</code> extrahiert nur was Claude braucht&thinsp;&mdash;&thinsp;Types, Funktions-Signaturen, Imports, Verzeichnisbäume. ~90% weniger Tokens pro Datei.</span></p>
           <div class="mini-term"><span style="color:var(--text-dim)">$</span> vibe-code.js types api.ts
 <span style="color:var(--green)">&#10003;</span> 200 tokens <span style="color:var(--text-dim)">(saved 1,800)</span></div>
         </div>
         <div class="card animate-on-scroll">
           <span class="icon" aria-hidden="true">&#128176;</span>
-          <h3>COCOMO Estimation</h3>
-          <p>Know what your project is worth. COCOMO-II model calculates effort, schedule, team size, and cost based on your actual codebase.</p>
+          <h3><span class="lang-en">COCOMO Estimation</span><span class="lang-de">COCOMO-Schätzung</span></h3>
+          <p><span class="lang-en">Know what your project is worth. COCOMO-II model calculates effort, schedule, team size, and cost based on your actual codebase.</span><span class="lang-de">Wisse, was dein Projekt wert ist. Das COCOMO-II-Modell berechnet Aufwand, Zeitplan, Teamgröße und Kosten basierend auf deiner Codebase.</span></p>
           <div class="mini-term"><span style="color:var(--text-dim)">Effort:</span>  5.9 person-months
 <span style="color:var(--text-dim)">Schedule:</span> 5.3 months
 <span style="color:var(--cyan)">Cost:</span>    <span style="color:var(--text-bright)">&#8364;47,040</span> <span style="color:var(--text-dim)">(at &#8364;80/h)</span></div>
         </div>
         <div class="card animate-on-scroll">
           <span class="icon" aria-hidden="true">&#128202;</span>
-          <h3>HTML Project Report</h3>
-          <p>Visual statistics at a glance. LOC by language, folder sizes, complexity hotspots, git stats&thinsp;&mdash;&thinsp;all in one beautiful HTML report.</p>
+          <h3><span class="lang-en">HTML Project Report</span><span class="lang-de">HTML Projekt-Report</span></h3>
+          <p><span class="lang-en">Visual statistics at a glance. LOC by language, folder sizes, complexity hotspots, git stats&thinsp;&mdash;&thinsp;all in one beautiful HTML report.</span><span class="lang-de">Visuelle Statistiken auf einen Blick. LOC nach Sprache, Ordnergrößen, Komplexitäts-Hotspots, Git-Stats&thinsp;&mdash;&thinsp;alles in einem schönen HTML-Report.</span></p>
           <div class="mini-term"><span style="color:var(--text-dim)">Two modes:</span>
   <span style="color:var(--cyan)">Minimal</span> &mdash; zero dependencies
   <span style="color:var(--purple)">Fancy</span>   &mdash; with Chart.js visuals</div>
         </div>
         <div class="card animate-on-scroll">
           <span class="icon" aria-hidden="true">&#128268;</span>
-          <h3>Plugin Presets</h3>
-          <p>Best Claude Code plugins, one click. Curated presets from Minimal to Full&thinsp;&mdash;&thinsp;including superpowers, feature-dev, pr-review, frontend-design, and more.</p>
+          <h3><span class="lang-en">Plugin Presets</span><span class="lang-de">Plugin-Auswahl</span></h3>
+          <p><span class="lang-en">Best Claude Code plugins, one click. Curated presets from Minimal to Full&thinsp;&mdash;&thinsp;including superpowers, feature-dev, pr-review, frontend-design, and more.</span><span class="lang-de">Die besten Claude Code Plugins, ein Klick. Kuratierte Presets von Minimal bis Full&thinsp;&mdash;&thinsp;inklusive superpowers, feature-dev, pr-review, frontend-design und mehr.</span></p>
           <div class="mini-term"><span style="color:var(--text-dim)">? Plugin preset:</span>
   <span style="color:var(--cyan)">Minimal</span>  &#8594; superpowers
   <span style="color:var(--cyan)">Standard</span> &#8594; + feature-dev, pr-review
@@ -500,16 +527,16 @@
         </div>
         <div class="card animate-on-scroll">
           <span class="icon" aria-hidden="true">&#129504;</span>
-          <h3>Memory System</h3>
-          <p>Claude remembers everything. Persistent memory across sessions&thinsp;&mdash;&thinsp;user preferences, project decisions, feedback, and references. Never re-explain twice.</p>
+          <h3><span class="lang-en">Memory System</span><span class="lang-de">Gedächtnis-System</span></h3>
+          <p><span class="lang-en">Claude remembers everything. Persistent memory across sessions&thinsp;&mdash;&thinsp;user preferences, project decisions, feedback, and references. Never re-explain twice.</span><span class="lang-de">Claude erinnert sich an alles. Persistentes Gedächtnis über Sessions hinweg&thinsp;&mdash;&thinsp;Präferenzen, Projekt-Entscheidungen, Feedback und Referenzen. Nie wieder doppelt erklären.</span></p>
           <div class="mini-term"><span style="color:var(--text-dim)">.claude/memory/</span>
   <span style="color:var(--text-bright)">MEMORY.md</span>  &#8594; persists across sessions
   <span style="color:var(--text-dim)">+ auto-detected tech stack</span></div>
         </div>
         <div class="card animate-on-scroll">
           <span class="icon" aria-hidden="true">&#128203;</span>
-          <h3>Smart Rules</h3>
-          <p>Battle-tested from production. Task tracking, automatic re-planning when things derail, diff-before-done checks, and token efficiency rules baked in.</p>
+          <h3><span class="lang-en">Smart Rules</span><span class="lang-de">Bewährte Regeln</span></h3>
+          <p><span class="lang-en">Battle-tested from production. Task tracking, automatic re-planning when things derail, diff-before-done checks, and token efficiency rules baked in.</span><span class="lang-de">Praxiserprobt aus der Produktion. Task-Tracking, automatisches Umplanen bei Problemen, Diff-vor-Fertig-Checks und Token-Effizienz-Regeln eingebaut.</span></p>
           <div class="mini-term"><span style="color:var(--text-dim)">.claude/rules/</span>
   <span style="color:var(--text-bright)">general.md</span>   &#8594; task tracking
   <span style="color:var(--text-bright)">standards.md</span> &#8594; code quality
@@ -527,38 +554,38 @@
   <section class="section" id="plugins">
     <div class="container">
       <div class="animate-on-scroll" style="text-align:center">
-        <div class="section-label">Plugin Ecosystem</div>
-        <h2 class="section-title">Curated plugins.<br>Zero configuration.</h2>
-        <p class="section-subtitle" style="margin:0 auto">Hand-picked plugins that unlock advanced Claude Code workflows. Choose a preset or pick individually.</p>
+        <div class="section-label"><span class="lang-en">Plugin Ecosystem</span><span class="lang-de">Plugin-Ökosystem</span></div>
+        <h2 class="section-title"><span class="lang-en">Curated plugins.<br>Zero configuration.</span><span class="lang-de">Kuratierte Plugins.<br>Null Konfiguration.</span></h2>
+        <p class="section-subtitle" style="margin:0 auto"><span class="lang-en">Hand-picked plugins that unlock advanced Claude Code workflows. Choose a preset or pick individually.</span><span class="lang-de">Handverlesene Plugins für fortgeschrittene Claude Code Workflows. Wähle ein Preset oder einzelne Plugins.</span></p>
       </div>
       <div class="plugin-table-wrap animate-on-scroll">
         <table class="plugin-table">
           <thead>
             <tr>
               <th>Plugin</th>
-              <th>What It Does</th>
+              <th><span class="lang-en">What It Does</span><span class="lang-de">Was es macht</span></th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>superpowers</td>
-              <td>TDD, systematic debugging, brainstorming, plan writing &amp; execution, code review, parallel agents</td>
+              <td><span class="lang-en">TDD, systematic debugging, brainstorming, plan writing &amp; execution, code review, parallel agents</span><span class="lang-de">TDD, systematisches Debugging, Brainstorming, Planung &amp; Ausführung, Code Review, parallele Agents</span></td>
             </tr>
             <tr>
               <td>feature-dev</td>
-              <td>Code explorer agent, architecture designer, quality reviewer</td>
+              <td><span class="lang-en">Code explorer agent, architecture designer, quality reviewer</span><span class="lang-de">Code-Explorer-Agent, Architektur-Designer, Qualitäts-Reviewer</span></td>
             </tr>
             <tr>
               <td>pr-review-toolkit</td>
-              <td>PR test analyzer, silent-failure-hunter, comment analyzer, type-design analyzer, code simplifier</td>
+              <td><span class="lang-en">PR test analyzer, silent-failure-hunter, comment analyzer, type-design analyzer, code simplifier</span><span class="lang-de">PR-Test-Analyzer, Silent-Failure-Hunter, Kommentar-Analyzer, Type-Design-Analyzer, Code-Simplifier</span></td>
             </tr>
             <tr>
               <td>frontend-design</td>
-              <td>Production-grade UI/UX implementation with distinctive design language</td>
+              <td><span class="lang-en">Production-grade UI/UX implementation with distinctive design language</span><span class="lang-de">Produktionsreife UI/UX-Implementierung mit eigenständiger Design-Sprache</span></td>
             </tr>
             <tr>
               <td>ui-ux-pro-max</td>
-              <td>AI design intelligence&thinsp;&mdash;&thinsp;67 UI styles, 161 color palettes, 57 font pairings, industry-specific rules</td>
+              <td><span class="lang-en">AI design intelligence&thinsp;&mdash;&thinsp;67 UI styles, 161 color palettes, 57 font pairings, industry-specific rules</span><span class="lang-de">KI-Design-Intelligenz&thinsp;&mdash;&thinsp;67 UI-Styles, 161 Farbpaletten, 57 Font-Pairings, branchenspezifische Regeln</span></td>
             </tr>
           </tbody>
         </table>
@@ -588,8 +615,8 @@
   <section class="section" id="demo">
     <div class="container">
       <div class="animate-on-scroll" style="text-align:center">
-        <div class="section-label">See It In Action</div>
-        <h2 class="section-title">30 seconds to a<br>perfect setup.</h2>
+        <div class="section-label"><span class="lang-en">See It In Action</span><span class="lang-de">In Aktion sehen</span></div>
+        <h2 class="section-title"><span class="lang-en">30 seconds to a<br>perfect setup.</span><span class="lang-de">30 Sekunden bis zum<br>perfekten Setup.</span></h2>
       </div>
       <div class="terminal animate-on-scroll" id="terminal-demo">
         <div class="terminal-bar">
@@ -613,14 +640,14 @@
   <section class="section" id="compare">
     <div class="container">
       <div class="animate-on-scroll" style="text-align:center">
-        <div class="section-label">How It Compares</div>
-        <h2 class="section-title">Not all starters<br>are created equal.</h2>
+        <div class="section-label"><span class="lang-en">How It Compares</span><span class="lang-de">Im Vergleich</span></div>
+        <h2 class="section-title"><span class="lang-en">Not all starters<br>are created equal.</span><span class="lang-de">Nicht alle Starter<br>sind gleich.</span></h2>
       </div>
       <div class="comparison-wrap animate-on-scroll">
         <table class="comparison-table">
           <thead>
             <tr>
-              <th>Feature</th>
+              <th><span class="lang-en">Feature</span><span class="lang-de">Feature</span></th>
               <th class="highlight-col">cc-starter</th>
               <th>TheDecipherist</th>
               <th>serpro69</th>
@@ -629,49 +656,49 @@
           </thead>
           <tbody>
             <tr>
-              <td>Token-saving scripts</td>
+              <td><span class="lang-en">Token-saving scripts</span><span class="lang-de">Token-sparende Scripts</span></td>
               <td class="highlight-col"><span class="check">&#10003;</span></td>
               <td><span class="cross">&mdash;</span></td>
               <td><span class="cross">&mdash;</span></td>
               <td><span class="cross">&mdash;</span></td>
             </tr>
             <tr>
-              <td>COCOMO estimation</td>
+              <td><span class="lang-en">COCOMO estimation</span><span class="lang-de">COCOMO-Schätzung</span></td>
               <td class="highlight-col"><span class="check">&#10003;</span></td>
               <td><span class="cross">&mdash;</span></td>
               <td><span class="cross">&mdash;</span></td>
               <td><span class="cross">&mdash;</span></td>
             </tr>
             <tr>
-              <td>HTML project report</td>
+              <td><span class="lang-en">HTML project report</span><span class="lang-de">HTML Projekt-Report</span></td>
               <td class="highlight-col"><span class="check">&#10003;</span></td>
               <td><span class="cross">&mdash;</span></td>
               <td><span class="cross">&mdash;</span></td>
               <td><span class="cross">&mdash;</span></td>
             </tr>
             <tr>
-              <td>Interactive wizard</td>
-              <td class="highlight-col"><span class="check">&#10003;</span></td>
-              <td><span class="cross">&mdash;</span></td>
-              <td><span class="check">&#10003;</span></td>
-              <td><span class="cross">&mdash;</span></td>
-            </tr>
-            <tr>
-              <td>Plugin installation</td>
-              <td class="highlight-col"><span class="check">&#10003;</span></td>
-              <td><span class="cross">&mdash;</span></td>
-              <td><span class="cross">&mdash;</span></td>
-              <td><span class="cross">&mdash;</span></td>
-            </tr>
-            <tr>
-              <td>Memory system</td>
+              <td><span class="lang-en">Interactive wizard</span><span class="lang-de">Interaktiver Wizard</span></td>
               <td class="highlight-col"><span class="check">&#10003;</span></td>
               <td><span class="cross">&mdash;</span></td>
               <td><span class="check">&#10003;</span></td>
               <td><span class="cross">&mdash;</span></td>
             </tr>
             <tr>
-              <td>Tech stack detection</td>
+              <td><span class="lang-en">Plugin installation</span><span class="lang-de">Plugin-Installation</span></td>
+              <td class="highlight-col"><span class="check">&#10003;</span></td>
+              <td><span class="cross">&mdash;</span></td>
+              <td><span class="cross">&mdash;</span></td>
+              <td><span class="cross">&mdash;</span></td>
+            </tr>
+            <tr>
+              <td><span class="lang-en">Memory system</span><span class="lang-de">Gedächtnis-System</span></td>
+              <td class="highlight-col"><span class="check">&#10003;</span></td>
+              <td><span class="cross">&mdash;</span></td>
+              <td><span class="check">&#10003;</span></td>
+              <td><span class="cross">&mdash;</span></td>
+            </tr>
+            <tr>
+              <td><span class="lang-en">Tech stack detection</span><span class="lang-de">Tech-Stack-Erkennung</span></td>
               <td class="highlight-col"><span class="check">&#10003;</span></td>
               <td><span class="cross">&mdash;</span></td>
               <td><span class="cross">&mdash;</span></td>
@@ -685,7 +712,7 @@
               <td><span class="cross">&mdash;</span></td>
             </tr>
             <tr>
-              <td>Zero output deps</td>
+              <td><span class="lang-en">Zero output deps</span><span class="lang-de">Keine Output-Deps</span></td>
               <td class="highlight-col"><span class="check">&#10003;</span></td>
               <td><span class="check">&#10003;</span></td>
               <td><span class="check">&#10003;</span></td>
@@ -705,17 +732,17 @@
   <section class="section cta-section" id="install">
     <div class="container">
       <div class="animate-on-scroll">
-        <div class="section-label">Get Started</div>
-        <h2 class="section-title">Ready to supercharge<br>your Claude Code?</h2>
+        <div class="section-label"><span class="lang-en">Get Started</span><span class="lang-de">Loslegen</span></div>
+        <h2 class="section-title"><span class="lang-en">Ready to supercharge<br>your Claude Code?</span><span class="lang-de">Bereit, dein Claude Code<br>aufzuladen?</span></h2>
         <div class="cmd-box-lg" id="cta-copy" role="button" tabindex="0" aria-label="Copy npx cc-starter to clipboard">
           <span>npx cc-starter</span>
           <span class="copy-icon" aria-hidden="true">&#x2398;</span>
         </div>
-        <p class="cta-note">Requires Node.js 18+. Claude Code CLI optional but recommended.</p>
+        <p class="cta-note"><span class="lang-en">Requires Node.js 18+. Claude Code CLI optional but recommended.</span><span class="lang-de">Benötigt Node.js 18+. Claude Code CLI optional, aber empfohlen.</span></p>
         <div class="cta-links">
           <a href="https://github.com/WAGMIStudios/cc-starter" target="_blank" rel="noopener">GitHub Repository</a>
           <a href="https://www.npmjs.com/package/cc-starter" target="_blank" rel="noopener">npm Package</a>
-          <a href="https://github.com/WAGMIStudios/cc-starter#readme" target="_blank" rel="noopener">Documentation</a>
+          <a href="https://github.com/WAGMIStudios/cc-starter#readme" target="_blank" rel="noopener"><span class="lang-en">Documentation</span><span class="lang-de">Dokumentation</span></a>
         </div>
       </div>
     </div>
@@ -726,12 +753,12 @@
        ═══════════════════════════════════════════════════════════ -->
   <footer>
     <div class="footer-links">
-      <a href="https://www.linkedin.com/in/lars-fanter" target="_blank" rel="noopener">Built by Lars Fanter</a>
+      <a href="https://www.linkedin.com/in/lars-fanter" target="_blank" rel="noopener"><span class="lang-en">Built by Lars Fanter</span><span class="lang-de">Entwickelt von Lars Fanter</span></a>
       <a href="https://github.com/WAGMIStudios/cc-starter" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.npmjs.com/package/cc-starter" target="_blank" rel="noopener">npm</a>
       <span>MIT License</span>
     </div>
-    <div class="built-with">Built with Claude Code + cc-starter</div>
+    <div class="built-with"><span class="lang-en">Built with Claude Code + cc-starter</span><span class="lang-de">Erstellt mit Claude Code + cc-starter</span></div>
   </footer>
 
   <!-- ═══════════════════════════════════════════════════════════
@@ -775,9 +802,11 @@
     document.getElementById('cta-copy').addEventListener('click', () => {
       copyCommand(null, null);
       const el = document.getElementById('cta-copy');
-      const orig = el.querySelector('span').textContent;
-      el.querySelector('span').textContent = 'Copied!';
-      setTimeout(() => { el.querySelector('span').textContent = orig; }, 1500);
+      const cmdSpan = el.querySelector('span');
+      const orig = cmdSpan.textContent;
+      const lang = document.documentElement.getAttribute('data-lang');
+      cmdSpan.textContent = lang === 'de' ? 'Kopiert!' : 'Copied!';
+      setTimeout(() => { cmdSpan.textContent = orig; }, 1500);
     });
     document.getElementById('cta-copy').addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); document.getElementById('cta-copy').click(); }
@@ -860,6 +889,40 @@
         if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
       });
     });
+
+    /* ─── Language toggle (DE/EN) ─── */
+    (function() {
+      const html = document.documentElement;
+      const langBtns = document.querySelectorAll('[data-lang-switch]');
+
+      function setLang(lang) {
+        html.setAttribute('data-lang', lang);
+        html.setAttribute('lang', lang);
+        langBtns.forEach(btn => {
+          btn.classList.toggle('active', btn.getAttribute('data-lang-switch') === lang);
+        });
+        try { localStorage.setItem('cc-starter-lang', lang); } catch(e) {}
+      }
+
+      // Determine initial language: localStorage > browser language > default EN
+      let savedLang = null;
+      try { savedLang = localStorage.getItem('cc-starter-lang'); } catch(e) {}
+      if (!savedLang) {
+        const browserLang = (navigator.language || '').toLowerCase();
+        savedLang = browserLang.startsWith('de') ? 'de' : 'en';
+      }
+      setLang(savedLang);
+
+      langBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          setLang(btn.getAttribute('data-lang-switch'));
+        });
+      });
+
+      // Also handle the CTA copy button "Copied!" text based on language
+      const origCtaCopyHandler = document.getElementById('cta-copy');
+      // Override is handled inline already via lang-en/lang-de spans
+    })();
   </script>
 </body>
 </html>
