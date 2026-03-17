@@ -325,6 +325,27 @@
        CTA
        ═══════════════════════════════════════════════════════════ */
     .cta-section { text-align: center; }
+    .steps-row {
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+      margin-top: 40px; flex-wrap: wrap;
+    }
+    .step {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 20px; border-radius: 12px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      font-size: 0.95rem; color: var(--text-dim);
+    }
+    .step-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      color: var(--bg); font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
+    }
+    .step-arrow { color: var(--text-dim); font-size: 1.2rem; }
+    @media (max-width: 640px) {
+      .step-arrow { display: none; }
+      .steps-row { flex-direction: column; gap: 10px; }
+    }
     .cta-section .cmd-box-lg {
       display: inline-flex; align-items: center; gap: 16px;
       padding: 22px 40px; border-radius: 16px; font-family: var(--font-mono);
@@ -734,6 +755,22 @@
       <div class="animate-on-scroll">
         <div class="section-label"><span class="lang-en">Get Started</span><span class="lang-de">Loslegen</span></div>
         <h2 class="section-title"><span class="lang-en">Ready to supercharge<br>your Claude Code?</span><span class="lang-de">Bereit, dein Claude Code<br>aufzuladen?</span></h2>
+        <div class="steps-row">
+          <div class="step">
+            <span class="step-num">1</span>
+            <span class="lang-en">Open your terminal</span><span class="lang-de">Terminal öffnen</span>
+          </div>
+          <div class="step-arrow" aria-hidden="true">→</div>
+          <div class="step">
+            <span class="step-num">2</span>
+            <span class="lang-en">Navigate to your project folder</span><span class="lang-de">Ins Projektverzeichnis wechseln</span>
+          </div>
+          <div class="step-arrow" aria-hidden="true">→</div>
+          <div class="step">
+            <span class="step-num">3</span>
+            <span class="lang-en">Run the command</span><span class="lang-de">Befehl ausführen</span>
+          </div>
+        </div>
         <div class="cmd-box-lg" id="cta-copy" role="button" tabindex="0" aria-label="Copy npx cc-starter to clipboard">
           <span>npx cc-starter</span>
           <span class="copy-icon" aria-hidden="true">&#x2398;</span>
