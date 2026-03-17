@@ -1,0 +1,3 @@
+node_modules/
+.vibe-stats.json
+stats/report.html
