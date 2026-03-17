@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cc-starter — LinkedIn Carousel Slides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       VARIABLES & BASE
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      --bg: #0a0a0f;
+      --bg-card: rgba(255,255,255,0.03);
+      --cyan: #00d4ff;
+      --cyan-dim: rgba(0,212,255,0.15);
+      --purple: #a855f7;
+      --purple-dim: rgba(168,85,247,0.15);
+      --text: #e4e4e7;
+      --text-dim: #71717a;
+      --text-bright: #fafafa;
+      --red: #ef4444;
+      --red-dim: rgba(239,68,68,0.12);
+      --green: #22c55e;
+      --border: rgba(255,255,255,0.08);
+      --font-heading: 'Outfit', system-ui, sans-serif;
+      --font-mono: 'IBM Plex Mono', 'Fira Code', monospace;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-heading);
+      background: #000;
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding: 40px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       PAGE LAYOUT
+       ═══════════════════════════════════════════════════════════ */
+    .page-header {
+      max-width: 1080px;
+      margin: 0 auto 40px;
+      padding: 24px 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+    .page-header strong { color: var(--text-bright); }
+    .page-header code {
+      font-family: var(--font-mono);
+      background: rgba(0,212,255,0.08);
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: var(--cyan);
+      font-size: 0.85rem;
+    }
+
+    .slides-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SLIDE BASE
+       ═══════════════════════════════════════════════════════════ */
+    .slide {
+      width: 1080px;
+      height: 1080px;
+      background: var(--bg);
+      padding: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FLOATING ORBS
+       ═══════════════════════════════════════════════════════════ */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(120px);
+      opacity: 0.12;
+      z-index: 0;
+    }
+    .orb-cyan { background: var(--cyan); }
+    .orb-purple { background: var(--purple); }
+
+    /* ═══════════════════════════════════════════════════════════
+       BRANDING FOOTER
+       ═══════════════════════════════════════════════════════════ */
+    .slide-brand {
+      position: absolute;
+      bottom: 32px;
+      right: 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--text-dim);
+      z-index: 10;
+    }
+    .slide-brand .brand-name {
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .slide-brand .brand-name span { color: var(--cyan); }
+    .slide-brand .slide-num {
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SHARED TYPOGRAPHY
+       ═══════════════════════════════════════════════════════════ */
+    .slide-content { position: relative; z-index: 1; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .slide-title {
+      font-size: 52px;
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--text-bright);
+      margin-bottom: 40px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 16px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CARDS
+       ═══════════════════════════════════════════════════════════ */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+    }
+
+    .card-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 16px;
+    }
+
+    .card-desc {
+      font-size: 18px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CODE BOXES
+       ═══════════════════════════════════════════════════════════ */
+    .cmd-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 32px;
+      border-radius: 14px;
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-weight: 600;
+      background: rgba(0,212,255,0.06);
+      border: 1px solid rgba(0,212,255,0.2);
+      color: var(--cyan);
+    }
+    .cmd-box .prompt { color: var(--purple); }
+
+    .terminal {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      font-family: var(--font-mono);
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text);
+    }
+    .terminal .line-dim { color: var(--text-dim); }
+    .terminal .line-cyan { color: var(--cyan); }
+    .terminal .line-green { color: var(--green); }
+    .terminal .line-purple { color: var(--purple); }
+
+    /* ═══════════════════════════════════════════════════════════
+       LIST ITEMS
+       ═══════════════════════════════════════════════════════════ */
+    .point-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .point-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      font-size: 24px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+    .point-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .point-icon.red {
+      background: var(--red-dim);
+      color: var(--red);
+    }
+    .point-icon.cyan {
+      background: var(--cyan-dim);
+      color: var(--cyan);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       STEP CIRCLES
+       ═══════════════════════════════════════════════════════════ */
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .step-number {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      color: #0a0a0f;
+    }
+    .step-text {
+      font-size: 24px;
+      color: var(--text);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TIER BOXES (Slide 6)
+       ═══════════════════════════════════════════════════════════ */
+    .tier {
+      border-radius: 14px;
+      padding: 28px 32px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+    .tier-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 6px;
+    }
+    .tier-plugins {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--cyan);
+      margin-bottom: 8px;
+    }
+    .tier-desc {
+      font-size: 16px;
+      color: var(--text-dim);
+    }
+    .tier.glow-1 {
+      border-color: rgba(0,212,255,0.12);
+      box-shadow: 0 0 30px rgba(0,212,255,0.04);
+    }
+    .tier.glow-2 {
+      border-color: rgba(0,212,255,0.2);
+      box-shadow: 0 0 40px rgba(0,212,255,0.06);
+    }
+    .tier.glow-3 {
+      border-color: rgba(168,85,247,0.25);
+      box-shadow: 0 0 50px rgba(168,85,247,0.08), 0 0 30px rgba(0,212,255,0.06);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       PLUGIN ROWS (Slide 7)
+       ═══════════════════════════════════════════════════════════ */
+    .plugin-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .plugin-row:last-child { border-bottom: none; }
+    .plugin-name {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--cyan);
+    }
+    .plugin-desc {
+      font-size: 17px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HIGHLIGHT BOX
+       ═══════════════════════════════════════════════════════════ */
+    .highlight-box {
+      padding: 20px 28px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(168,85,247,0.08));
+      border: 1px solid rgba(0,212,255,0.15);
+      text-align: center;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-bright);
+    }
+    .highlight-box .gradient-text { font-size: inherit; }
+
+    /* ═══════════════════════════════════════════════════════════
+       CTA LINKS
+       ═══════════════════════════════════════════════════════════ */
+    .cta-links {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .cta-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 20px;
+      color: var(--text-dim);
+    }
+    .cta-link .label {
+      font-weight: 600;
+      color: var(--text);
+      min-width: 80px;
+    }
+    .cta-link .url {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      color: var(--cyan);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <strong>LinkedIn Carousel Slides</strong> — 10 Slides, je 1080x1080px.<br>
+    Jeden Slide einzeln screenshotten (z.B. mit Browser DevTools Device Mode auf 1080x1080) oder als PDF drucken und die Seiten in LinkedIn hochladen.<br>
+    Tipp: <code>Cmd/Ctrl+P</code> zum Drucken, dann "Als PDF speichern" auswaehlen.
+  </div>
+
+  <div class="slides-container">
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 1: COVER
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="1">
+      <!-- Orbs -->
+      <div class="orb orb-cyan" style="width:500px;height:500px;top:-180px;left:-180px;"></div>
+      <div class="orb orb-purple" style="width:450px;height:450px;bottom:-150px;right:-150px;"></div>
+      <div class="orb orb-cyan" style="width:300px;height:300px;top:55%;left:65%;opacity:0.07;"></div>
+
+      <div class="slide-content" style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:0;">
+        <div style="font-size:80px;font-weight:900;line-height:1.05;letter-spacing:-0.03em;margin-bottom:8px;">
+          <span style="color:var(--text-bright);">Claude Code.</span><br>
+          <span class="gradient-text">Aufgeladen.</span>
+        </div>
+        <p style="font-size:26px;color:var(--text-dim);margin-bottom:48px;line-height:1.6;">
+          Ein Befehl. Fertig eingerichtet.
+        </p>
+        <div class="cmd-box" style="margin-bottom:48px;">
+          <span class="prompt">$</span> npx cc-starter
+        </div>
+        <p style="font-size:16px;color:var(--text-dim);font-family:var(--font-mono);letter-spacing:0.05em;">
+          Open Source &middot; MIT &middot; kostenlos
+        </p>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">1 / 10</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 2: THE PROBLEM
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="2">
+      <div class="orb orb-purple" style="width:400px;height:400px;top:-120px;right:-100px;"></div>
+      <div class="orb orb-cyan" style="width:350px;height:350px;bottom:-100px;left:-80px;opacity:0.08;"></div>
+
+      <div class="slide-content">
+        <div class="section-label">Das Problem</div>
+        <div class="slide-title">Kennt ihr das auch?</div>
+        <ul class="point-list">
+          <li>
+            <div class="point-icon red">&#10007;</div>
+            <span>Jede Session startet von Null</span>
+          </li>
+          <li>
+            <div class="point-icon red">&#10007;</div>
+            <span>Claude liest ganze 500-Zeilen-Dateien</span>
+          </li>
+          <li>
+            <div class="point-icon red">&#10007;</div>
+            <span>Kein Ged&auml;chtnis zwischen Sessions</span>
+          </li>
+          <li>
+            <div class="point-icon red">&#10007;</div>
+            <span>Manuelles Plugin-Setup</span>
+          </li>
+          <li>
+            <div class="point-icon red">&#10007;</div>
+            <span>Keine Ahnung was dein Projekt kostet</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">2 / 10</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 3: THE SOLUTION
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="3">
+      <div class="orb orb-cyan" style="width:450px;height:450px;top:-150px;left:-120px;"></div>
+      <div class="orb orb-purple" style="width:350px;height:350px;bottom:-120px;right:-80px;opacity:0.09;"></div>
+
+      <div class="slide-content">
+        <div class="section-label">Die L&ouml;sung</div>
+        <div class="slide-title">Damit ist jetzt Schluss.</div>
+        <ul class="point-list">
+          <li>
+            <div class="point-icon cyan">&#10003;</div>
+            <span>Regeln, Ged&auml;chtnis und Kontext — sofort bereit</span>
+          </li>
+          <li>
+            <div class="point-icon cyan">&#10003;</div>
+            <span>Nur Types und Signaturen — 90% weniger Tokens</span>
+          </li>
+          <li>
+            <div class="point-icon cyan">&#10003;</div>
+            <span>Persistentes Ged&auml;chtnis &uuml;ber alle Sessions</span>
+          </li>
+          <li>
+            <div class="point-icon cyan">&#10003;</div>
+            <span>Plugin-Presets mit einem Klick</span>
+          </li>
+          <li>
+            <div class="point-icon cyan">&#10003;</div>
+            <span>COCOMO-Sch&auml;tzung sagt es dir sofort</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">3 / 10</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 4: TOKEN-SAVING SCRIPTS
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="4">
+      <div class="orb orb-cyan" style="width:400px;height:400px;top:-100px;right:-100px;opacity:0.1;"></div>
+      <div class="orb orb-purple" style="width:300px;height:300px;bottom:-80px;left:-60px;opacity:0.08;"></div>
+
+      <div class="slide-content" style="gap:32px;display:flex;flex-direction:column;">
+        <div class="card" style="flex:1;">
+          <div style="font-size:48px;margin-bottom:16px;">&#9889;</div>
+          <div class="card-title" style="font-size:36px;">Token-sparende Scripts</div>
+          <p class="card-desc" style="margin-bottom:28px;">
+            <code style="font-family:var(--font-mono);color:var(--cyan);background:rgba(0,212,255,0.08);padding:2px 8px;border-radius:4px;">vibe-code.js</code>
+            extrahiert nur was Claude braucht: Types, Funktions-Signaturen, Imports, Verzeichnisb&auml;ume.
+          </p>
+          <div class="terminal" style="margin-bottom:28px;">
+            <span class="line-dim">$</span> <span class="line-cyan">vibe-code.js types api.ts</span><br>
+            <span class="line-green">&#10003; 200 tokens</span> <span class="line-dim">(saved 1,800)</span><br><br>
+            <span class="line-dim">$</span> <span class="line-cyan">vibe-code.js functions lib/utils.ts</span><br>
+            <span class="line-green">&#10003; 55 tokens</span> <span class="line-dim">(saved 930)</span>
+          </div>
+          <div class="highlight-box">
+            <span class="gradient-text">~90% weniger Token-Verbrauch</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">4 / 10</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 5: COCOMO + STATS
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="5">
+      <div class="orb orb-purple" style="width:420px;height:420px;top:-140px;left:-100px;"></div>
+      <div class="orb orb-cyan" style="width:300px;height:300px;bottom:-80px;right:-60px;opacity:0.08;"></div>
+
+      <div class="slide-content" style="display:flex;flex-direction:column;gap:32px;">
+        <div class="section-label">Projekt-Analyse</div>
+
+        <!-- COCOMO Card -->
+        <div class="card">
+          <div class="card-title" style="font-size:28px;">&#128176; Projekt-Kostensch&auml;tzung</div>
+          <p class="card-desc" style="margin-bottom:20px;">COCOMO-II Modell, direkt im Terminal</p>
+          <div class="terminal">
+            <span class="line-dim">Lines of Code:</span>  <span style="color:var(--text-bright);font-weight:600;">36,660</span><br>
+            <span class="line-dim">Effort:</span>          <span style="color:var(--text-bright);font-weight:600;">9.8 Person-Months</span><br>
+            <span class="line-dim">Cost:</span>            <span class="line-cyan" style="font-weight:600;">&euro;47,040</span> <span class="line-dim">(at &euro;80/h)</span>
+          </div>
+        </div>
+
+        <!-- HTML Report Card -->
+        <div class="card">
+          <div class="card-title" style="font-size:28px;">&#128202; HTML Projekt-Report</div>
+          <p class="card-desc" style="margin-bottom:12px;">
+            LOC nach Sprache, Ordnergr&ouml;&szlig;en, Git-Stats
+          </p>
+          <p class="card-desc">
+            Minimal <span style="color:var(--text);font-weight:500;">(zero deps)</span> oder Fancy <span style="color:var(--text);font-weight:500;">(Chart.js)</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">5 / 10</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 6: PLUGIN PRESETS
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="6">
+      <div class="orb orb-cyan" style="width:380px;height:380px;top:-100px;right:-80px;opacity:0.09;"></div>
+      <div class="orb orb-purple" style="width:350px;height:350px;bottom:-100px;left:-80px;"></div>
+
+      <div class="slide-content" style="display:flex;flex-direction:column;gap:28px;">
+        <div class="section-label">Plugins</div>
+        <div class="slide-title" style="margin-bottom:12px;">&#128268; Die besten Plugins, ein Klick</div>
+
+        <div class="tier glow-1">
+          <div class="tier-name">Minimal</div>
+          <div class="tier-plugins">superpowers</div>
+          <div class="tier-desc">TDD, Debugging, Plans, Brainstorming</div>
+        </div>
+
+        <div class="tier glow-2">
+          <div class="tier-name">Standard</div>
+          <div class="tier-plugins">+ feature-dev, pr-review-toolkit</div>
+          <div class="tier-desc">Code Explorer, PR Reviews</div>
+        </div>
+
+        <div class="tier glow-3">
+          <div class="tier-name">Full</div>
+          <div class="tier-plugins">+ frontend-design, ui-ux-pro-max</div>
+          <div class="tier-desc">UI/UX Design Intelligence</div>
+        </div>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">6 / 10</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 7: PLUGIN DETAILS
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="7">
+      <div class="orb orb-purple" style="width:400px;height:400px;top:-120px;left:-100px;opacity:0.08;"></div>
+      <div class="orb orb-cyan" style="width:300px;height:300px;bottom:-80px;right:-60px;opacity:0.07;"></div>
+
+      <div class="slide-content" style="display:flex;flex-direction:column;">
+        <div class="section-label">Plugin-Details</div>
+        <div class="slide-title" style="margin-bottom:24px;font-size:44px;">Was die Plugins k&ouml;nnen</div>
+
+        <div style="display:flex;flex-direction:column;">
+          <div class="plugin-row">
+            <div class="plugin-name">superpowers</div>
+            <div class="plugin-desc">TDD, Debugging, Brainstorming, Plans, Code Review, parallele Agents</div>
+          </div>
+          <div class="plugin-row">
+            <div class="plugin-name">feature-dev</div>
+            <div class="plugin-desc">Code Explorer, Architektur-Designer, Quality Reviewer</div>
+          </div>
+          <div class="plugin-row">
+            <div class="plugin-name">pr-review-toolkit</div>
+            <div class="plugin-desc">Test-Analyzer, Silent-Failure-Hunter, Type-Design-Analyzer</div>
+          </div>
+          <div class="plugin-row">
+            <div class="plugin-name">frontend-design</div>
+            <div class="plugin-desc">Production-grade UI/UX mit distinctivem Design</div>
+          </div>
+          <div class="plugin-row">
+            <div class="plugin-name">ui-ux-pro-max</div>
+            <div class="plugin-desc">67 UI-Styles, 161 Farbpaletten, 57 Font-Pairings</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">7 / 10</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 8: MEMORY + RULES
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="8">
+      <div class="orb orb-cyan" style="width:400px;height:400px;top:-120px;right:-100px;"></div>
+      <div class="orb orb-purple" style="width:300px;height:300px;bottom:-80px;left:-60px;opacity:0.08;"></div>
+
+      <div class="slide-content" style="display:flex;flex-direction:column;gap:32px;">
+        <div class="section-label">Kontext &amp; Regeln</div>
+
+        <!-- Memory Card -->
+        <div class="card">
+          <div class="card-title">&#129504; Memory System</div>
+          <p class="card-desc" style="margin-bottom:16px;">
+            Claude merkt sich alles: Entscheidungen, Feedback, Projektkontext.
+          </p>
+          <p class="card-desc" style="margin-bottom:20px;">
+            Nie wieder dasselbe zweimal erkl&auml;ren.
+          </p>
+          <div class="terminal" style="font-size:15px;">
+            <span class="line-dim">.claude/memory/</span><span class="line-cyan">MEMORY.md</span>
+          </div>
+        </div>
+
+        <!-- Rules Card -->
+        <div class="card">
+          <div class="card-title">&#128203; Bew&auml;hrte Regeln</div>
+          <p class="card-desc" style="margin-bottom:12px;">
+            Aus echtem Produktionsprojekt extrahiert.
+          </p>
+          <p class="card-desc">
+            Task-Tracking, STOPP &amp; Neu planen, Verification gegen Main.
+          </p>
+          <p style="font-size:15px;color:var(--text-dim);margin-top:12px;font-family:var(--font-mono);">
+            Deutsch + Englisch
+          </p>
+        </div>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">8 / 10</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 9: HOW IT WORKS
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="9">
+      <div class="orb orb-purple" style="width:400px;height:400px;top:-130px;left:-100px;"></div>
+      <div class="orb orb-cyan" style="width:350px;height:350px;bottom:-120px;right:-80px;opacity:0.09;"></div>
+
+      <div class="slide-content" style="display:flex;flex-direction:column;align-items:center;gap:0;text-align:center;">
+        <div class="section-label" style="margin-bottom:16px;">Setup</div>
+        <div class="slide-title" style="margin-bottom:48px;">So einfach geht's</div>
+
+        <div style="display:flex;flex-direction:column;gap:32px;width:100%;max-width:700px;text-align:left;margin-bottom:56px;">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-text">Terminal &ouml;ffnen</div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-text">Ins Projektverzeichnis wechseln</div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-text">Befehl ausf&uuml;hren</div>
+          </div>
+        </div>
+
+        <div class="cmd-box" style="font-size:32px;margin-bottom:32px;">
+          <span class="prompt">$</span> npx cc-starter
+        </div>
+
+        <p style="font-size:16px;color:var(--text-dim);font-family:var(--font-mono);">
+          Node.js 18+ &middot; Claude Code CLI optional
+        </p>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">9 / 10</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SLIDE 10: CTA / CLOSER
+         ══════════════════════════════════════════════════════════ -->
+    <div class="slide" data-slide-number="10">
+      <div class="orb orb-cyan" style="width:500px;height:500px;top:-180px;left:-160px;"></div>
+      <div class="orb orb-purple" style="width:450px;height:450px;bottom:-150px;right:-120px;"></div>
+      <div class="orb orb-cyan" style="width:250px;height:250px;top:40%;left:70%;opacity:0.06;"></div>
+
+      <div class="slide-content" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:0;">
+        <div style="font-size:64px;font-weight:900;color:var(--text-bright);margin-bottom:40px;letter-spacing:-0.03em;">
+          Probier es aus.
+        </div>
+
+        <div class="cmd-box" style="font-size:30px;margin-bottom:48px;">
+          <span class="prompt">$</span> npx cc-starter
+        </div>
+
+        <div class="cta-links" style="margin-bottom:40px;text-align:left;">
+          <div class="cta-link">
+            <span class="label">GitHub</span>
+            <span class="url">github.com/WAGMIStudios/cc-starter</span>
+          </div>
+          <div class="cta-link">
+            <span class="label">npm</span>
+            <span class="url">npmjs.com/package/cc-starter</span>
+          </div>
+          <div class="cta-link">
+            <span class="label">Web</span>
+            <span class="url">wagmistudios.github.io/cc-starter</span>
+          </div>
+        </div>
+
+        <p style="font-size:16px;color:var(--text-dim);font-family:var(--font-mono);margin-bottom:20px;letter-spacing:0.05em;">
+          Open Source &middot; MIT Lizenz &middot; Kostenlos
+        </p>
+        <p style="font-size:16px;color:var(--text-dim);margin-bottom:24px;">
+          Built by Lars Fanter
+        </p>
+        <p style="font-size:14px;color:var(--text-dim);font-family:var(--font-mono);">
+          #ClaudeCode #AI #DeveloperTools #OpenSource
+        </p>
+      </div>
+
+      <div class="slide-brand">
+        <div class="brand-name">cc<span>-starter</span></div>
+        <div class="slide-num">10 / 10</div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
