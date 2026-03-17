@@ -2,6 +2,9 @@
 
 ## Project Overview
 **Project:** {{projectName}}
+{{#if projectDescription}}
+**Description:** {{projectDescription}}
+{{/if}}
 {{#if techStack.languages.length}}
 **Languages:** {{#each techStack.languages}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
 {{/if}}
