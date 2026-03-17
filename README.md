@@ -85,7 +85,7 @@ Estimation (Semi-Detached):
 |--------|---------|----------|
 | Minimal | superpowers | Solo devs, getting started |
 | Standard | + feature-dev, pr-review-toolkit | Most projects |
-| Full | + frontend-design | Frontend-heavy projects |
+| Full | + frontend-design, ui-ux-pro-max | Frontend-heavy projects |
 | Custom | Pick your own | Power users |
 
 Plugins are installed via `claude mcp add` — no manual config needed.
