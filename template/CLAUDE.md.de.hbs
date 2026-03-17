@@ -1,0 +1,45 @@
+# CLAUDE.md - {{projectName}}
+
+## Projektübersicht
+**Projekt:** {{projectName}}
+{{#if techStack.languages.length}}
+**Sprachen:** {{#each techStack.languages}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+{{/if}}
+{{#if techStack.frameworks.length}}
+**Frameworks:** {{#each techStack.frameworks}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+{{/if}}
+
+---
+
+## Kurzreferenz
+
+### Token-sparende Scripts
+```bash
+node scripts/stats/vibe-code.js help       # Code-Analyse (~90% Tokens sparen)
+node scripts/stats/vibe-code.js types <f>   # Types/Interfaces extrahieren
+node scripts/stats/vibe-code.js tree [dir]  # Verzeichnisstruktur anzeigen
+node scripts/stats/vibe-code.js imports <f> # Imports anzeigen
+node scripts/stats/vibe-code.js funcs <f>   # Funktions-Signaturen
+```
+
+### Projekt-Statistiken
+```bash
+node scripts/stats/cocomo.js                # Projekt-Kostenschätzung
+node scripts/stats/project-report.js        # HTML-Statistik-Report
+node scripts/stats/vibe-stats.js report     # Token-Einsparungs-Report
+```
+
+### Regeln
+Siehe `.claude/rules/` für Arbeitsregeln:
+- `01-general.md` — Aufgaben-Tracking, Planung, Verifikation
+- `02-code-standards.md` — Code-Qualität, Sicherheit, Tests
+- `03-dev-ops.md` — Git, Umgebung, Deployment
+- `04-token-efficiency.md` — **PFLICHT:** Vibe-Code Scripts nutzen bevor Dateien gelesen werden
+
+### Memory-System
+Persistenter Speicher über Sessions hinweg in `.claude/memory/`.
+Index: `.claude/memory/MEMORY.md`
+
+---
+
+*Generiert von [cc-starter](https://www.npmjs.com/package/cc-starter)*

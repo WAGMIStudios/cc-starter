@@ -5,6 +5,7 @@ import { detect } from '../lib/detect.js';
 import { wizard } from '../lib/wizard.js';
 import { scaffold } from '../lib/scaffold.js';
 import { installPlugins } from '../lib/plugins.js';
+import { I18N } from '../lib/constants.js';
 
 async function main() {
   // 1. Banner
@@ -26,25 +27,27 @@ async function main() {
     console.log(chalk.dim('  No specific tech stack detected (empty or new project)\n'));
   }
 
-  // 3. Interactive wizard
+  // 3. Interactive wizard (language selection happens first inside wizard)
   const config = await wizard(techStack);
+  const lang = config.lang || 'en';
+  const t = I18N[lang];
 
   // 4. Scaffold files
-  console.log(chalk.cyan('\n  Scaffolding project...\n'));
+  console.log(chalk.cyan(`\n  ${t.scaffold.scaffolding}\n`));
   const result = await scaffold(config);
 
   // 5. Install plugins
-  await installPlugins(config.plugins);
+  await installPlugins(config.plugins, lang);
 
   // 6. Summary
   console.log(chalk.green.bold(`
   ══════════════════════════════════════════
-  Done! Run 'claude' to start coding.
+  ${t.summary.done}
 
-  Quick commands:
-    node scripts/stats/cocomo.js          → Project cost estimate
-    node scripts/stats/vibe-code.js help  → Token-saving tools
-    node scripts/stats/project-report.js  → HTML statistics
+  ${t.summary.quickCommands}
+    node scripts/stats/cocomo.js          → ${t.summary.costEstimate}
+    node scripts/stats/vibe-code.js help  → ${t.summary.tokenTools}
+    node scripts/stats/project-report.js  → ${t.summary.htmlStats}
   ══════════════════════════════════════════
   `));
 }
