@@ -32,6 +32,7 @@ One command. Interactive wizard. Full setup in 30 seconds.
 | `scripts/stats/vibe-stats.js` | Track and measure your token savings |
 | `scripts/stats/cocomo.js` | COCOMO-II project cost estimation |
 | `scripts/stats/project-report.js` | Visual HTML statistics report |
+| AI Operating System | Optional developer profile — role, experience, communication style |
 | Plugin presets | One-click installation of best Claude Code plugins |
 
 ---
@@ -92,6 +93,14 @@ Plugins are installed via `claude mcp add` — no manual config needed.
 
 ---
 
+## 🧠 AI Operating System (optional)
+
+Personalize Claude to your working style. The wizard asks for your role, experience level, and communication preference — then auto-derives smart defaults (no beginner explanations for seniors, architecture focus for tech leads, etc.).
+
+Saved as `.claude/memory/user_profile.md` — not committed to git.
+
+---
+
 ## 🚀 Installation
 
 ```bash
@@ -120,6 +129,7 @@ npx cc-starter
 | Memory system | ✅ | ❌ | ❌ | ❌ |
 | Tech stack detection | ✅ | ❌ | ❌ | ✅ |
 | Zero dependencies in output | ✅ | ✅ | ❌ | ✅ |
+| AI Operating System | ✅ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -129,6 +139,7 @@ npx cc-starter
 npx cc-starter
 ├─ Detect tech stack (TypeScript, Next.js, ...)
 ├─ Interactive wizard (name, rate, plugins)
+├─ Optional: personalize Claude (role, style)
 ├─ Scaffold .claude/ + scripts/ + CLAUDE.md
 ├─ Install selected plugins
 └─ Ready to code!
