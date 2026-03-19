@@ -19,8 +19,16 @@ Inspired by the "AI Operating System" concept: giving AI persistent context abou
 After plugin selection, the wizard presents an optional personalization block:
 
 1. **Confirm** — "Personalize Claude?" (yes/no, default: no → skip)
-2. **Role** — List selection: Frontend Developer, Backend Developer, Fullstack Developer, Tech Lead / Architect, DevOps / SRE, Data Scientist / ML Engineer, Student / Learning, Other
-3. **Specialization** — Free text, optional (e.g. "React + Next.js", "Kubernetes", "NLP/PyTorch"). Enter to skip.
+2. **Role** — List selection with internal value keys:
+   - Frontend Developer (`frontend`)
+   - Backend Developer (`backend`)
+   - Fullstack Developer (`fullstack`)
+   - Tech Lead / Architect (`techlead`)
+   - DevOps / SRE (`devops`)
+   - Data Scientist / ML Engineer (`data`)
+   - Student / Learning (`student`)
+   - Other (`other`)
+3. **Specialization** — Free text, optional, max 100 characters (e.g. "React + Next.js", "Kubernetes", "NLP/PyTorch"). Enter to skip.
 4. **Experience Level** — List selection: Beginner (< 1 year), Intermediate (1-3 years), Experienced (3-7 years), Senior (7+ years)
 5. **Communication Style** — List selection:
    - Short & direct — code and results, minimal explanations
@@ -43,9 +51,9 @@ A function `derivePreferences(role, level, commStyle, lang)` in `constants.js` r
 | Level >= Senior | No repetition of basics, expect independent judgment | Keine Wiederholung von Grundlagen, erwarte eigenstaendiges Urteil |
 | Comm = "short" | No summaries at the end, no introductions | Keine Zusammenfassungen am Ende, keine Einleitungen |
 | Comm = "detailed" | Always provide alternatives and trade-offs | Alternativen und Trade-offs immer mitliefern |
-| Role = Student | Explain concepts, suggest learning resources | Konzepte erklaeren, Lernressourcen vorschlagen |
-| Role = Tech Lead | Prioritize architecture perspective, consider team impact | Architektur-Perspektive priorisieren, Team-Impact beruecksichtigen |
-| Role = DevOps | Think about infrastructure, security, and monitoring | Infrastruktur, Sicherheit und Monitoring mitdenken |
+| Role = `student` | Explain concepts, suggest learning resources | Konzepte erklaeren, Lernressourcen vorschlagen |
+| Role = `techlead` | Prioritize architecture perspective, consider team impact | Architektur-Perspektive priorisieren, Team-Impact beruecksichtigen |
+| Role = `devops` | Think about infrastructure, security, and monitoring | Infrastruktur, Sicherheit und Monitoring mitdenken |
 
 Multiple rules can apply simultaneously. The result is a list of strings written into the profile.
 
@@ -77,13 +85,15 @@ Short & direct
 - No summaries at the end, no introductions
 ```
 
-Additionally, an entry is appended to `.claude/memory/MEMORY.md`:
+Additionally, an entry is appended to `.claude/memory/MEMORY.md` — but only if it does not already contain `user_profile.md` (idempotency guard, same pattern as the `# cc-starter` marker check in `updateGitignore()`):
 
 ```markdown
 - [User Profile](user_profile.md) — Role, experience, communication preferences
 ```
 
-The profile language follows the wizard language selection (DE/EN).
+The profile language follows the wizard language selection (DE/EN). Section headings are bilingual via I18N:
+- EN: `## Role`, `## Experience`, `## Communication Style`, `## Preferences`
+- DE: `## Rolle`, `## Erfahrung`, `## Kommunikationsstil`, `## Praeferenzen`
 
 If `.claude/memory/user_profile.md` already exists, the user is asked: Overwrite or Skip (same pattern as CLAUDE.md conflict handling).
 
@@ -101,13 +111,15 @@ Three files modified, no new files:
 ### `lib/wizard.js`
 - After plugin selection: confirm prompt "Personalize Claude?"
 - If yes: 4 additional prompts (role, specialization, level, communication)
-- Return object gets an optional `profile` field containing `{ role, specialization, level, commStyle }`
+- Return object gets an optional `profile` field containing `{ role, specialization, level, commStyle }` (update JSDoc accordingly)
 
 ### `lib/scaffold.js`
 - New step between step 4 (.cc-starter.json) and step 5 (.gitignore): write profile
 - Checks if `config.profile` exists
-- If yes: calls `derivePreferences()`, renders `user_profile.md`, appends MEMORY.md entry
+- **Skipped entirely if user chose "Skip" for the `.claude/` directory** (since `user_profile.md` lives inside `.claude/memory/`)
+- If yes: calls `derivePreferences()`, renders `user_profile.md`, appends MEMORY.md entry (with idempotency check)
 - If profile file already exists: Overwrite/Skip dialog
+- `.gitignore`: append `.claude/memory/user_profile.md` to the `# cc-starter` block in `updateGitignore()` to ensure the profile is never committed
 
 No new template file. The profile is assembled as a string in `scaffold.js` — too simple for Handlebars.
 
